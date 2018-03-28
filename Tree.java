@@ -1,17 +1,36 @@
 import java.util.*;
 
+/**
+*	Class contains methods to create a tree from Nodes in Node.java 
+*	to implement T9 dictionary.
+*/
 public class Tree extends Node {
 
+	//	root node for tree
 	Node root;
 
+	/**
+	*	Constructor for tree
+	*/
 	public Tree() {
 		root = new Node();
 	}
 
+	/**
+	*	Calling method for inserting word into the tree. Calls the
+	*	recursive insert method
+	*/
 	public void insert(String word) {
 		insert_rec(word, 0, this.root);
 	}
 
+	/**
+	*	recuserviely inserts words into the tree
+	*	@param word the word to be inserted into tree
+	* 	@param position the position of the letter of which to follow the node
+	*		   to insert into a node
+	*	@node the parent node of the current letter position
+	*/
 	public void insert_rec(String word, int position, Node node) {
 		if (position == word.length()) {
 			if (node.word == null) {
@@ -82,6 +101,14 @@ public class Tree extends Node {
 		}
 	}
 
+	/**
+	*	recuserviely returns the node of a word in the tree
+	*	@param word the word to search in the tree
+	* 	@param position the position of the letter of which to follow the node
+	*		   to find
+	*	@param node the parent node of the current letter position
+	*	@return Node the node of a specified word
+	*/
 	public Node getNode(String word, int position, Node node) {
 		if (position == word.length()) {
 			return node;
@@ -150,12 +177,24 @@ public class Tree extends Node {
 		return node;
 	}
 
+	/**
+	*	Calling method for listing all words stored in a node
+	*	@param word the T9 word to search for
+	*	@return LinkedList of all strings matching specified T9 word
+	*/
 	public LinkedList<String> list(String word) {
 		LinkedList<String> ll = new LinkedList<String>();
 		Node node = getNode(word, 0, this.root);
 		return list_rec(word, node, ll); 
 	}
 
+	/**
+	*	Recursive method for listing all words stored in a node
+	*	@param word the T9 word to search for
+	*	@param n the current node
+	*	@param ll the LinkedList which will contain all the words to be stored
+	*	@return LinkedList of all strings matching specified T9 word
+	*/
 	public LinkedList<String> list_rec(String word, Node n, LinkedList<String> ll) {
 		if (n == null) {}
 		else {
@@ -184,6 +223,11 @@ public class Tree extends Node {
 		return ll;
 	}
 
+	/**
+	*	Method to see if a string exists in a node
+	*	@param n Node to search and children to search
+	*	@param str String word to search for
+	*/
 	public void exist(Node n, String str) {
 		if (n == null) {
 			return;
@@ -203,6 +247,10 @@ public class Tree extends Node {
 		exist(n.wxyz, str);
 	}
 
+	/**
+	*	Method to print all words stored in node
+	*	@param n Node to search for and whose children will be searched
+	*/
 	public void print(Node n) {
 		if (n == null) {
 			return;
@@ -220,20 +268,5 @@ public class Tree extends Node {
 		print(n.pqrs);
 		print(n.tuv);
 		print(n.wxyz);
-	}
-
-	public static void main(String[] args) {
-		Tree t = new Tree();
-
-		t.insert("ABCB");
-		t.insert("hel");
-		t.insert("hello");
-		t.insert("hellos");
-		t.insert("zebra");
-
-		t.print(t.root);
-
-		LinkedList<String> ll = t.list("hel");
-		System.out.println(ll.toString());
 	}
 }
