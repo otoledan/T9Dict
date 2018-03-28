@@ -1,12 +1,24 @@
 import java.util.*;
 
+/**
+* The Hash class is the implementation of a Hash Table for dictionary words
+* and frequency of said words.
+*
+* @author otoledan
+* @date 3/28/2018
+*/
 public class Hash {
+
+	//Initial variables
 	String [] dictionary;
 	int [] frequency;
 	int size;
 	int elements;
 	double limit;
 
+	/**
+	*	Hash Constructor sets the initial valuues of the hash objects
+	*/
 	public Hash() {
 		this.dictionary = new String [10];
 		this.frequency = new int [10];
@@ -23,6 +35,9 @@ public class Hash {
 		this.limit = 0.6;
 	}
 
+	/**
+	*	Prints out all items stored in Hash Array
+	*/
 	public void getDictionary() {
 		for (int i=0; i < this.size; i++) {
 			//if (this.dictionary[i] != null)
@@ -30,6 +45,11 @@ public class Hash {
 		}
 	}
 
+	/**
+	*	Hash function returns a unique integer based on a string
+	*	@param str String to hash
+	*	@return int hashed integer which will be used to store the string
+	*/
 	private int hash_function(String str) {
 		int hash_index = 0;
 
@@ -41,6 +61,11 @@ public class Hash {
 		return hash_index % this.size;
 	}
 
+	/**
+	*	Tests if the capacity of the hash table has been 
+	*	filled in order to avoid too many collisions
+	*	@return boolean true if the capacity has been reached
+	*/
 	private boolean reached_limit() {
 		double curr_limit = (double) (this.elements + 1)/this.size;
 
@@ -51,6 +76,10 @@ public class Hash {
 		return false;
 	}
 
+	/**
+	*	Tests if string exists in Hash and prints to terminal
+	* 	@param str String to test
+	*/
 	public void exist(String str) {
 		for (int i = 0; i < this.dictionary.length; i++) {
 			if (this.dictionary[i] != null && this.dictionary[i].equals(str)) {
@@ -61,6 +90,11 @@ public class Hash {
 		System.out.println("\"" + str + "\" does not exist");
 	}
 
+	/**
+	*	Inserts string and frequency into Hash table
+	*	@param str String to insert
+	*	@freq freq of specified word
+	*/
 	public void insert(String str, int freq) {
 		if (reached_limit()) {
 			rehash();
@@ -77,6 +111,10 @@ public class Hash {
 		this.elements = this.elements + 1;
 	}
 
+	/**
+	*	Enlarges the hash tables and then rehashes all words 
+	*	and frequencies into the new hash tables
+	*/
 	private void rehash() {
 		String [] oldDict = this.dictionary;
 		int [] oldFreq = this.frequency;
@@ -97,6 +135,11 @@ public class Hash {
 		}
 	}
 
+	/**
+	*	Returns the Frequency of a word
+	*	@param word The string whose frequency is to be found
+	*	@return int the frequency of word
+	*/
 	public int getFreq(String word) {
 		int hash_index = hash_function(word) % this.size;
 
@@ -107,6 +150,11 @@ public class Hash {
 		return this.frequency[hash_index];
 	}
 
+	/**
+	*	Returns LinkedList of Frequencies based on a LinkedList of words
+	*	@param words LinkedList of words to find their frequencies
+	*	@return LinkedList of integers with the frequencies of the words entered
+	*/
 	public LinkedList<Integer> findFreq(LinkedList<String> words) {
 		String current_word = null;
 
